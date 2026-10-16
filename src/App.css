@@ -1,0 +1,408 @@
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f3f7f2;
+  color: #243328;
+}
+
+.app {
+  min-height: 100vh;
+}
+
+.header {
+  background: #205c3b;
+  color: white;
+  padding: 28px 7%;
+}
+
+.header h1 {
+  margin: 0 0 8px;
+  font-size: 30px;
+}
+
+.header p {
+  margin: 0;
+  line-height: 1.6;
+}
+
+.dashboard {
+  max-width: 1000px;
+  margin: 30px auto;
+  padding: 0 20px;
+}
+
+.welcome,
+.location-card {
+  background: white;
+  padding: 24px;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  border: 1px solid #dce7dc;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
+}
+
+.location-card label {
+  display: block;
+  margin: 18px 0 8px;
+  font-weight: bold;
+}
+
+.location-card input {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid #aab9ab;
+  border-radius: 7px;
+  font-size: 16px;
+}
+
+.location-card input:focus {
+  outline: 2px solid #4b9467;
+  border-color: #4b9467;
+}
+
+.helper {
+  color: #617064;
+  line-height: 1.6;
+}
+
+@media (max-width: 600px) {
+  .header {
+    padding: 24px 18px;
+  }
+
+  .header h1 {
+    font-size: 24px;
+  }
+
+  .dashboard {
+    margin-top: 18px;
+    padding: 0 12px;
+  }
+
+  .welcome,
+  .location-card {
+    padding: 18px;
+  }
+}
+
+
+.farm-map {
+  position: relative;
+  width: 100%;
+  height: 450px;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.farm-map .leaflet-container {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: #e8eee5;
+}
+
+.farm-map .leaflet-pane,
+.farm-map .leaflet-tile,
+.farm-map .leaflet-marker-icon,
+.farm-map .leaflet-marker-shadow {
+  position: absolute;
+}
+
+.farm-map .leaflet-tile {
+  max-width: none !important;
+  max-height: none !important;
+}
+
+.custom-drawing-tools {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 5px;
+  background: white;
+  border-radius: 6px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.4);
+}
+
+.custom-drawing-tools button {
+  padding: 8px 10px;
+  background: white;
+  color: #205c3b;
+  border: 1px solid #b8cbbd;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.custom-drawing-tools button:hover {
+  background: #e8f3e9;
+}
+
+/* Keep drawing controls inside the map */
+.farm-map {
+  position: relative;
+  isolation: isolate;
+}
+
+.farm-map .leaflet-container {
+  position: relative;
+  z-index: 1;
+}
+
+.farm-map .leaflet-top,
+.farm-map .leaflet-bottom {
+  z-index: 1000 !important;
+}
+
+.farm-map .custom-drawing-tools {
+  position: relative;
+  z-index: 1001;
+  pointer-events: auto;
+}
+
+.farm-map .custom-drawing-tools button {
+  display: block;
+  position: relative;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+/* Compact drawing toolbar */
+.farm-map .custom-drawing-tools {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 5px;
+  width: 145px;
+  padding: 6px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+.farm-map .custom-drawing-tools button {
+  display: block;
+  width: 100%;
+  padding: 9px 6px;
+  background: white;
+  color: #205c3b;
+  border: 1px solid #b8cbbd;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.farm-map .custom-drawing-tools button:hover {
+  background: #e8f3e9;
+}
+
+.area-results {
+  margin-top: 20px;
+  padding: 18px;
+  background: #f3f7f2;
+  border: 1px solid #dce7dc;
+  border-radius: 10px;
+}
+
+.area-results h3 {
+  margin-top: 0;
+  color: #205c3b;
+}
+
+.area-results p {
+  line-height: 1.6;
+}
+
+.farm-map .custom-drawing-tools {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 145px;
+  padding: 6px;
+  background: white;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+.farm-map .custom-drawing-tools button {
+  width: 100%;
+  padding: 9px 5px;
+  background: white;
+  color: #205c3b;
+  border: 1px solid #b8cbbd;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Location search box */
+
+.custom-location-search {
+  display: block !important;
+  position: relative;
+  z-index: 1000;
+  width: max-content;
+  max-width: calc(100% - 20px);
+  box-sizing: border-box;
+  background: white;
+  color: #222;
+  padding: 8px;
+  border-radius: 6px;
+  box-shadow: 0 1px 5px #888;
+}
+
+.custom-location-search form {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+}
+
+.custom-location-search input {
+  width: 180px;
+  max-width: 45vw;
+  min-width: 0;
+  padding: 7px;
+  background: white;
+  color: #222;
+  border: 1px solid #777;
+  border-radius: 4px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.custom-location-search button {
+  padding: 7px;
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.location-search-row {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.location-search-row input {
+  flex: 1;
+  min-width: 0;
+}
+
+.location-search-row button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  background: #2563eb;
+  color: white;
+  cursor: pointer;
+}
+
+.location-search-row button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.search-result {
+  margin-top: 10px;
+  overflow-wrap: anywhere;
+}
+
+.satellite-section {
+  margin-top: 24px;
+}
+
+.satellite-count {
+  margin-top: 24px;
+}
+
+.satellite-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+  margin-top: 18px;
+}
+
+.satellite-card {
+  overflow: hidden;
+  border: 1px solid #d9e2dc;
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.satellite-card-selected {
+  border: 2px solid #27864b;
+}
+
+.satellite-image-button {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: none;
+  background: #eef3ef;
+  cursor: pointer;
+}
+
+.satellite-preview {
+  display: block;
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.satellite-card-info {
+  padding: 14px;
+}
+
+.satellite-card-info p {
+  margin: 6px 0;
+  overflow-wrap: anywhere;
+}
+
+.satellite-card-info button,
+.selected-satellite button {
+  margin-top: 10px;
+}
+
+.satellite-no-preview {
+  display: grid;
+  height: 180px;
+  place-items: center;
+  background: #eef3ef;
+  color: #555555;
+}
+
+.satellite-error {
+  margin-top: 16px;
+  padding: 12px;
+  border-radius: 8px;
+  background: #fff0f0;
+  color: #a32121;
+}
+
+.selected-satellite {
+  margin-top: 28px;
+  padding: 18px;
+  border: 1px solid #d9e2dc;
+  border-radius: 12px;
+}
+
+.selected-satellite-preview {
+  display: block;
+  width: 100%;
+  max-width: 700px;
+  height: auto;
+  margin: 16px 0;
+  border-radius: 8px;
+}
+
